@@ -29,10 +29,10 @@ The application uses raw SQL with SQLite for persistence and avoids ORM and gene
 ## Project Structure
 
 ```bash
-todo_app/
+todo_app_assessment/
 │
 ├── todo_app/
-│ ├── init.py
+│ ├── __init__.py
 │ ├── app.py # Flask application & API routes
 │ ├── db.py # Database connection logic
 │ ├── schema.sql # SQL schema for tasks table
@@ -43,7 +43,7 @@ todo_app/
 │ └── add_task.html
 │
 ├── tests/
-│ ├── init.py
+│ ├── __init__.py
 │ └── test_tasks_api.py
 │
 ├── requirements.txt
@@ -57,8 +57,8 @@ todo_app/
 
 ### 1. Clone the Repository
 ```bash
-git clone <your-repository-url>
-cd TODO_APP
+git clone https://github.com/deepakgos/todo_app_assessment.git
+cd todo_app_assessment
 ```
 
 ### 2. Create Virtual Environment
