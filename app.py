@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, redirect, render_template
-from db import get_connection
+from todo_app.db import get_connection
 import logging
 
 app = Flask(__name__)
@@ -20,7 +20,7 @@ def create_task():
             return jsonify({"error": "Task title is required"}), 400
         
         conn = get_connection()
-        conn.execute(
+        cursor = conn.execute(
             """
                 Insert into tasks (title, description, due_date, status)
                 values (?, ?, ?, ?)
@@ -33,11 +33,15 @@ def create_task():
             )
         )
 
+        task_id = cursor.lastrowid
         conn.commit()
         conn.close()
 
-        app.logger.info("Task created successfully")
-        return jsonify({"message": "Task created"}), 201
+        app.logger.info(f"Task created successfully with id {task_id}")
+        return jsonify({
+            "id": task_id,
+            "message": "Task created"
+        }), 201
     
     except Exception as e:
         app.logger.error(f"Error creating task: {e}")
