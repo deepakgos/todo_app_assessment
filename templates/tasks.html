@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Tasks</h2>
+<a href="/add">Add New Task</a>
+<ul>
+    {% for task in tasks %}
+    <li>
+        <strong>{{ task.title }}</strong> - {{ task.status }}<br>
+        {% if task.description %}
+        <em>{{ task.description }}</em><br>
+        {% endif %}
+        {% if task.due_date %}
+        Due: {{ task.due_date }}<br>
+        {% endif %}
+
+         <!-- Update status -->
+        {% if task.status != "done" %}
+        <form method="post" action="/tasks/{{ task.id }}/status" style="display:inline;">
+            <button type="submit">Mark Done</button>
+        </form>
+        {% endif %}
+
+        <!-- Delete task -->
+        <form method="post" action="/tasks/{{ task.id }}/delete" style="display:inline;">
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+    {% else %}
+    <li>No tasks found</li>
+    {% endfor %}
+</ul>
+{% endblock %}

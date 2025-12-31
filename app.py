@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, redirect, render_template
 from db import get_connection
 import logging
 
@@ -6,9 +6,9 @@ app = Flask(__name__)
 
 logging.basicConfig(level=logging.INFO)
 
-@app.route("/")
-def health_check():
-    return "To-Do API is running."
+# @app.route("/")
+# def health_check():
+#     return "To-Do API is running."
 
 # Create Task
 @app.route("/api/tasks", methods=["POST"])
@@ -138,6 +138,59 @@ def delete_task(task_id):
     except Exception as e:
         app.logger.error(f"Error deleting task: {e}")
         return jsonify({"error": "Internal server error"}), 500
+    
+
+@app.route("/")
+def show_tasks():
+    conn = get_connection()
+    tasks = conn.execute("SELECT * FROM tasks").fetchall()
+    conn.close()
+    return render_template("tasks.html", tasks=tasks)
+
+@app.route("/add", methods=["GET", "POST"])
+def add_task_form():
+    if request.method == "POST":
+        title = request.form["title"]
+        description = request.form.get("description")
+        conn = get_connection()
+        conn.execute(
+            "INSERT INTO tasks (title, description) VALUES (?, ?)",
+            (title, description)
+        )
+        conn.commit()
+        conn.close()
+        return redirect("/")
+    return render_template("add_task.html")
+
+@app.route("/tasks/<int:task_id>/status", methods=["POST"])
+def update_task_status(task_id):
+    try:
+        conn = get_connection()
+        conn.execute(
+            "UPDATE tasks SET status = ? WHERE id = ?",
+            ("done", task_id)
+        )
+        conn.commit()
+        conn.close()
+        return redirect("/")
+    except Exception as e:
+        app.logger.error(f"Error updating task status: {e}")
+        return redirect("/")
+
+
+@app.route("/tasks/<int:task_id>/delete", methods=["POST"])
+def delete_task_ui(task_id):
+    try:
+        conn = get_connection()
+        conn.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
+        conn.commit()
+        conn.close()
+        return redirect("/")
+    except Exception as e:
+        app.logger.error(f"Error deleting task: {e}")
+        return redirect("/")
+
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
