@@ -132,12 +132,10 @@ http://127.0.0.1:8000
 ```
 
 ### Get Task by ID
+- GET /api/tasks/<id>
 
-#### GET /api/tasks/<id>
-
-#### Delete Task
-
-#### DELETE /api/tasks/<id>
+### Delete Task
+- DELETE /api/tasks/<id>
 
 ### Web Interface
 
