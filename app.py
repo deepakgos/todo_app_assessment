@@ -16,7 +16,7 @@ def create_task():
         data = request.get_json()
 
         if not data or "title" not in data:
-            return jsonify({"error": "Task title is required"}, 400)
+            return jsonify({"error": "Task title is required"}), 400
         
         conn = get_connection()
         conn.execute(
@@ -57,6 +57,7 @@ def get_tasks():
     except Exception as e:
         app.logger.error(f"Error fetching tasks: {e}")
         return jsonify({"error": "Internal server error"}), 500
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
