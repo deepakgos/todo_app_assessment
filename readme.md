@@ -29,7 +29,7 @@ The application uses raw SQL with SQLite for persistence and avoids ORM and gene
 ## Project Structure
 
 ```bash
-TODO_APP/
+todo_app/
 │
 ├── todo_app/
 │ ├── init.py
