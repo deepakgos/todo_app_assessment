@@ -143,7 +143,7 @@ def delete_task(task_id):
         app.logger.error(f"Error deleting task: {e}")
         return jsonify({"error": "Internal server error"}), 500
     
-
+# Render tasks page
 @app.route("/")
 def show_tasks():
     conn = get_connection()
@@ -151,21 +151,31 @@ def show_tasks():
     conn.close()
     return render_template("tasks.html", tasks=tasks)
 
+# Add task via form
 @app.route("/add", methods=["GET", "POST"])
 def add_task_form():
     if request.method == "POST":
         title = request.form["title"]
         description = request.form.get("description")
+        due_date = request.form.get("due_date")
+
         conn = get_connection()
         conn.execute(
-            "INSERT INTO tasks (title, description) VALUES (?, ?)",
-            (title, description)
+            """
+            INSERT INTO tasks (title, description, due_date, status)
+            VALUES (?, ?, ?, ?)
+            """,
+            (title, description, due_date, "pending")
         )
         conn.commit()
         conn.close()
+
         return redirect("/")
+
     return render_template("add_task.html")
 
+
+# Update task status via UI
 @app.route("/tasks/<int:task_id>/status", methods=["POST"])
 def update_task_status(task_id):
     try:
@@ -181,7 +191,7 @@ def update_task_status(task_id):
         app.logger.error(f"Error updating task status: {e}")
         return redirect("/")
 
-
+# Delete task via UI
 @app.route("/tasks/<int:task_id>/delete", methods=["POST"])
 def delete_task_ui(task_id):
     try:

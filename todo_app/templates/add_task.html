@@ -2,12 +2,19 @@
 
 {% block content %}
 <h2>Add Task</h2>
+
 <form method="post" action="/add">
     <label>Title:</label><br>
-    <input type="text" name="title" required><br>
+    <input type="text" name="title" required><br><br>
+
     <label>Description:</label><br>
-    <textarea name="description"></textarea><br>
+    <textarea name="description"></textarea><br><br>
+
+    <label>Due Date:</label><br>
+    <input type="date" name="due_date"><br><br>
+
     <button type="submit">Add Task</button>
 </form>
+
 <a href="/">Back to Tasks</a>
 {% endblock %}
