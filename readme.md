@@ -132,15 +132,15 @@ http://127.0.0.1:8000
 ```
 
 ### Get Task by ID
-- GET /api/tasks/<id>
+- **GET** `/api/tasks/<id>`
 
 ### Delete Task
-- DELETE /api/tasks/<id>
+- **DELETE** `/api/tasks/<id>`
 
 ### Web Interface
 
-- /tasks → View all tasks
-- /tasks/new → Add a new task
+- `/` → View all tasks
+- `/add` → Add a new task
 
 - The UI communicates with the backend using the same REST APIs.
 
