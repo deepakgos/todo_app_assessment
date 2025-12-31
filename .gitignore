@@ -17,3 +17,31 @@ instance/
 .env
 .env.*
 *.env
+
+# Database
+*.db
+
+# Migrations (Flask-Migrate)
+migrations/
+
+# Logs
+*.log
+
+# IDEs / Editors
+.vscode/
+.idea/
+*.swp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test / Coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Build / Dist
+build/
+dist/
+*.egg-info/
